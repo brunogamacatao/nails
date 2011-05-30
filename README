@@ -1,0 +1,17 @@
+This project is an intent of combining two great technologies: 
+
+ * Node.JS and Rails framework.
+
+We're just in the planning phase of the project.
+
+The next steps are:
+
+ * Create a simple CRUD example using just Node.JS and its extensions. This example should exhibit:
+  - One domain class;
+  - One controller;
+  - One view;
+ * Code the persistence layer, which automatically stores and retrieves domain classes;
+ * Code the controller logic in a Rails fashion;
+ * Code the view (decide which templating technology to use: jade, haml, ...).
+
+That's engough for now.
