@@ -1,0 +1,4 @@
+h1 Editing Ticket #{ticket.id}
+form(action='/tickets/' + ticket.id, method='POST')
+  input(type='hidden', name='_method', value='PUT')
+  div!= partial('tickets/partials/form.jade', {locals: {ticket: ticket}})
