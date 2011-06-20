@@ -1,3 +1,17 @@
+var mongoose = require('mongoose');
+var Schema   = mongoose.Schema;
+
+var TicketSchema = new Schema({
+  ticket: Number,
+  table:  Number,
+  date:   Date
+});
+
+mongoose.connect('mongodb://localhost/tickets_db');
+mongoose.model('Ticket', TicketSchema);
+
+var Ticket = mongoose.model('Ticket');
+
 var tickets = [
 {
   id: 1,
@@ -16,49 +30,41 @@ var tickets = [
 }
 ];
 
-module.exports.all = tickets;
+module.exports.all = function(callback) {
+  Ticket.find({}, function(err, tickets) {
+    callback(tickets);
+  });
+};
 
 module.exports.create = function() {
 };
 
-module.exports.find = function(id) {
-  var i;
-  id = parseInt(id, 10);
-  
-  for (i = 0; i < tickets.length; i++) {
-    if (tickets[i].id === id) {
-      return tickets[i];
-    }
-  }
-  
-  return undefined;
+module.exports.find = function(id, callback) {
+  Ticket.findById(id, function(err, product) {
+    callback(product);
+  });
 };
 
 module.exports.new = function() {
-  return {};
+  return new Ticket();
 };
 
-module.exports.insert = function(ticket) {
-  var id = tickets.length + 1;
+module.exports.insert = function(ticket, callback) {
+  ticket.ticket = 0;
+  ticket.date   = Date.now();
   
-  ticket.id   = id;
-  ticket.date = Date.now();
-  tickets[id - 1] = ticket;
-  
-  return id;
+  ticket = new Ticket(ticket);
+  ticket.save(function(err) {
+    callback(ticket);
+  });
 };
 
-module.exports.set = function(id, ticket) {
-  var i;
-  id = parseInt(id, 10);
-  
-  for (i = 0; i < tickets.length; i++) {
-    if (tickets[i].id === id) {
-      tickets[i].table = ticket.table;
-      tickets[i].date  = Date.now();
-      return;
-    }
-  }
-  
-  throw {message: 'Could not find a product with the id ' + id};
+module.exports.set = function(id, ticket, callback) {
+  Ticket.findById(id, function(err, storedTicket) {
+    storedTicket.table = ticket.table;
+    storedTicket.date  = Date.now();
+    storedTicket.save(function(err) {
+      callback();
+    });
+  });
 };

@@ -24,48 +24,7 @@ app.configure('production', function() {
 
 app.set('views', __dirname + '/templates');
 
-app.get('/', function(req, res) {
-  res.render('root.jade');
-});
-
-var tickets = require('./tickets/tickets');
-
-app.get('/tickets', function(req, res) {
-  res.render('tickets/index.jade', {locals: {
-    tickets: tickets.all
-  }});
-});
-
-app.get('/tickets/new', function(req, res) {
-  res.render('tickets/new.jade', {locals: {
-    ticket: req.body && req.body.ticket || tickets.new
-  }});
-});
-
-app.post('/tickets', function(req, res) {
-  var id = tickets.insert(req.body.ticket);
-  res.redirect('/tickets/' + id);
-});
-
-app.get('/tickets/:id', function(req, res) {
-  var ticket = tickets.find(req.params.id);
-  res.render('tickets/show.jade', {locals: {
-    ticket: ticket
-  }});
-});
-
-app.get('/tickets/:id/edit', function(req, res) {
-  var ticket = tickets.find(req.params.id);
-  res.render('tickets/edit.jade', {locals: {
-    ticket: ticket
-  }});
-});
-
-app.put('/tickets/:id', function(req, res) {
-  var id = req.params.id;
-  var ticket = tickets.find(id);
-  tickets.set(req.params.id, req.body.ticket);
-  res.redirect('/tickets/' + id);
-});
+//Setting up the URLs 
+require('./urls').setUp(app);
 
 app.listen(4000);
