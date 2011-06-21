@@ -7,28 +7,9 @@ var TicketSchema = new Schema({
   date:   Date
 });
 
-mongoose.connect('mongodb://localhost/tickets_db');
 mongoose.model('Ticket', TicketSchema);
 
 var Ticket = mongoose.model('Ticket');
-
-var tickets = [
-{
-  id: 1,
-  table: 1,
-  date: Date.now()
-},
-{
-  id: 2,
-  table: 2,
-  date: Date.now()
-},
-{
-  id: 3,
-  table: 3,
-  date: Date.now()
-}
-];
 
 module.exports.all = function(callback) {
   Ticket.find({}, function(err, tickets) {

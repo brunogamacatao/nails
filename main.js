@@ -26,7 +26,12 @@ app.configure('production', function() {
 
 app.set('views', __dirname + '/templates');
 
+//Setting up the Database
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/tickets_db');
+
 //Setting up the URLs 
 app.resource('tickets', require('./tickets/urls'));
 
+//Starting up the Server
 app.listen(4000);

@@ -1,4 +1,4 @@
-var tickets = require('./tickets');
+var tickets = require('./models');
 
 exports.index = function(req, res) {
   tickets.all(function(tickets) {
