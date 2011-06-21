@@ -1,4 +1,6 @@
 var express = require('express');
+require('express-resource');
+
 var app = express.createServer();
 
 //Generic configuration
@@ -25,6 +27,6 @@ app.configure('production', function() {
 app.set('views', __dirname + '/templates');
 
 //Setting up the URLs 
-require('./urls').setUp(app);
+app.resource('tickets', require('./tickets/urls'));
 
 app.listen(4000);
